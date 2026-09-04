@@ -1,0 +1,23 @@
+# pnpm 11 reads its behavioural settings from here, not from .npmrc, which is
+# left holding only the registry mapping.
+
+# Peer dependencies are declared, never inferred. Better Auth declares React
+# peers it only needs in a browser build; auto-installing them would pull React
+# into an image that serves JSON.
+autoInstallPeers: false
+
+# An explicit allow-list of the packages permitted to run install scripts.
+# Everything else is installed as inert files, so a compromised transitive
+# dependency cannot execute during `pnpm install`. Prisma is on the list because
+# its engines download is that install script.
+allowBuilds:
+  "@prisma/engines": true
+  esbuild: true
+  prisma: true
+
+# pnpm refuses packages published less than a day ago, which is a good default
+# against a hijacked release and a bad one for first-party packages: a build
+# triggered minutes after twofree-packages publishes would fail on its own
+# dependency. The exclusion is scoped to packages this repository owns.
+minimumReleaseAgeExclude:
+  - "@camircode/*"

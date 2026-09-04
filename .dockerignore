@@ -1,0 +1,14 @@
+# Keeps the build context to what the Dockerfile actually copies. A stale local
+# node_modules or dist in the context is worse than slow: it can be copied over
+# the freshly resolved tree and ship a build nobody made.
+.git
+.github
+node_modules
+dist
+coverage
+vendor
+metadata*.json
+*.log
+.env
+.env.*
+!.env.example

@@ -1,0 +1,15 @@
+# Findings deliberately not failing the build.
+#
+# Every entry needs a reachability argument and an expiry date. An entry without
+# both is a permanent silence, and a scanner that is permanently silent about
+# something is a scanner nobody reads.
+#
+# Example of the required shape:
+#
+# vulnerabilities:
+#   - id: CVE-0000-00000
+#     statement: >-
+#       Reached only through <path>, which this image never executes.
+#     expired_at: 2026-01-01
+
+vulnerabilities: []

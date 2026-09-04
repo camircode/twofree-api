@@ -1,0 +1,18 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+
+# Not committed yet, and README.md says why: the @camircode packages are not on
+# GitHub Packages, so any lockfile that exists today pins tarball integrities
+# from a local link or a local registry — which is worse than none, because
+# --frozen-lockfile would then fail on the first real build.
+pnpm-lock.yaml
+
+# Verification leftovers: a local registry or a packed tarball is how this
+# repository is exercised before the shared packages exist on GitHub Packages.
+vendor/
+metadata*.json

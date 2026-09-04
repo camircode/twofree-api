@@ -1,0 +1,62 @@
+{
+  "name": "twofree-api",
+  "version": "0.1.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "packageManager": "pnpm@11.13.1",
+  "engines": {
+    "node": ">=24.18.0 <25",
+    "pnpm": "11.13.1"
+  },
+  "scripts": {
+    "prisma:client": "node scripts/prisma-client.mjs",
+    "prebuild": "pnpm prisma:client",
+    "build": "node scripts/build.mjs",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "migrate": "node scripts/migrate.mjs",
+    "pretypecheck": "pnpm prisma:client",
+    "typecheck": "tsc --noEmit",
+    "pretest": "pnpm prisma:client",
+    "test": "vitest run --config vitest.config.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
+  },
+  "dependencies": {
+    "@camircode/twofree-application": "^0.1.0",
+    "@camircode/twofree-auth": "^0.1.0",
+    "@camircode/twofree-core": "^0.1.0",
+    "@camircode/twofree-data-provider": "^0.1.0",
+    "@camircode/twofree-database": "^0.1.0",
+    "@nestjs/common": "11.1.28",
+    "@nestjs/core": "11.1.28",
+    "@nestjs/platform-express": "11.1.28",
+    "@prisma/adapter-pg": "7.9.0",
+    "@prisma/client": "7.9.0",
+    "@thallesp/nestjs-better-auth": "2.7.0",
+    "better-auth": "1.6.23",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.2",
+    "express": "5.1.0",
+    "pg": "8.22.0",
+    "qs": "6.14.0",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@types/express": "5.0.3",
+    "@types/node": "24.10.1",
+    "esbuild": "0.28.1",
+    "eslint": "9.39.1",
+    "prettier": "3.8.2",
+    "prisma": "7.9.0",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.56.1",
+    "vitest": "4.1.0"
+  }
+}
