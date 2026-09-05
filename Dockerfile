@@ -29,7 +29,7 @@ FROM node:24-bookworm-slim AS deps
 WORKDIR /src
 RUN corepack enable
 COPY package.json pnpm-workspace.yaml .npmrc ./
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile
 
 # --- build --------------------------------------------------------------------
 # `pnpm build` is two steps: scripts/prisma-client.mjs materialises the Prisma
@@ -58,7 +58,7 @@ RUN corepack enable
 COPY package.json pnpm-workspace.yaml .npmrc ./
 COPY scripts/prune-manifest.mjs ./scripts/
 RUN node scripts/prune-manifest.mjs
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --prod
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile --prod
 
 # --- migration dependencies ---------------------------------------------------
 # Alpine, and its own install rather than a copy of the one above, because a
@@ -79,7 +79,7 @@ RUN apk add --no-cache openssl && corepack enable
 COPY package.json pnpm-workspace.yaml .npmrc ./
 COPY scripts ./scripts
 RUN node scripts/prune-manifest.mjs prisma esbuild
-RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install
+RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile
 RUN pnpm prisma:client
 
 # --- the migration image ------------------------------------------------------

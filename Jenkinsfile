@@ -88,7 +88,7 @@ EOF
                             mkdir -p /tmp/bin
                             corepack enable --install-directory /tmp/bin
                             export PATH=/tmp/bin:$PATH
-                            pnpm install
+                            pnpm install --frozen-lockfile
                             pnpm typecheck
                             pnpm test
                           '
