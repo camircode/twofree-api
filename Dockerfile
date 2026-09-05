@@ -28,7 +28,7 @@
 FROM node:24-bookworm-slim AS deps
 WORKDIR /src
 RUN corepack enable
-COPY package.json pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile
 
 # --- build --------------------------------------------------------------------
@@ -55,7 +55,7 @@ RUN pnpm build
 FROM node:24-bookworm-slim AS runtime-deps
 WORKDIR /src
 RUN corepack enable
-COPY package.json pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY scripts/prune-manifest.mjs ./scripts/
 RUN node scripts/prune-manifest.mjs
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile --prod
@@ -76,7 +76,7 @@ WORKDIR /app
 # without it, and the engine then fails to start with an error about a library
 # rather than about the migration.
 RUN apk add --no-cache openssl && corepack enable
-COPY package.json pnpm-workspace.yaml .npmrc ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY scripts ./scripts
 RUN node scripts/prune-manifest.mjs prisma esbuild
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc pnpm install --frozen-lockfile
