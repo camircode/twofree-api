@@ -104,6 +104,11 @@ EOF
                 // answers "Bad substitution" and nothing else.
                 script {
                     env.SHORT_SHA = env.GIT_COMMIT.take(7)
+                    // readJSON rather than `node -p`: this agent deliberately
+                    // carries no language toolchain — every build and test runs
+                    // in a container — and reaching for one here would put that
+                    // back for a single field.
+                    env.APP_VERSION = readJSON(file: 'package.json').version
                 }
                 withCredentials([usernamePassword(
                     credentialsId: 'ghcr',
@@ -124,10 +129,17 @@ EOF
                         # --secret, not --build-arg and not a COPY: the token is
                         # mounted for the length of one RUN and leaves no layer
                         # and no history entry behind.
+                        # APP_VERSION and BUILD_SHA so GET /version names the
+                        # build that is running rather than the configuration
+                        # loader's laptop defaults. The full sha, not SHORT_SHA:
+                        # the tag is for a human scanning a list, this is for
+                        # finding the commit.
                         docker buildx build \
                           --push \
                           --provenance=false \
                           --secret id=npmrc,src="$NPMRC" \
+                          --build-arg APP_VERSION="$APP_VERSION" \
+                          --build-arg BUILD_SHA="$GIT_COMMIT" \
                           --tag "$IMAGE:$SHORT_SHA" \
                           --metadata-file metadata-api.json \
                           .

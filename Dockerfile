@@ -172,6 +172,23 @@ COPY --from=build /src/dist ./dist
 # like the application never started.
 ENV API_HOST=0.0.0.0
 
+# What this image is, baked in rather than configured at deploy time.
+#
+# GET /version exists to answer "which build is running", and it could not: the
+# shared configuration loader defaults to version 0.1.0 and build "local", so an
+# image built by Jenkins reported itself as a laptop build. Putting the values
+# in the Deployment instead would let the manifest and the image disagree, which
+# is the same problem wearing a different hat — the image is the thing that
+# knows what it is.
+#
+# Declared here, at the end, and deliberately not earlier: BUILD_SHA changes on
+# every commit, and an ARG invalidates every layer after it. Up in the deps
+# stage it would re-resolve the whole dependency tree on each build.
+ARG APP_VERSION=0.0.0-dev
+ARG BUILD_SHA=unknown
+ENV APP_VERSION=$APP_VERSION \
+    BUILD_SHA=$BUILD_SHA
+
 # Matches runAsNonRoot in the Deployment. Declaring it here as well means the
 # image is safe to run without a securityContext rather than depending on one.
 USER 65532:65532
