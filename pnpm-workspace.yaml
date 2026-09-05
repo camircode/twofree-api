@@ -21,3 +21,20 @@ allowBuilds:
 # dependency. The exclusion is scoped to packages this repository owns.
 minimumReleaseAgeExclude:
   - "@camircode/*"
+
+# Transitive dependencies pinned past a published fix. None is a direct
+# dependency and none is reachable from the serving image's own code:
+# deepmerge-ts and find-my-way arrive under the Prisma CLI and so live only in
+# the migration image, and mysql2 is a driver better-auth declares for a
+# database this application does not use. They ship inside the images all the
+# same, so the scan sees them, and Trivy fails the build on HIGH or CRITICAL
+# with a fix available.
+#
+# deepmerge-ts crosses a major version, which the Prisma CLI is not declared
+# against. The smoke test is what settles that: it runs the migration image
+# against a real PostgreSQL, so a CLI broken by this override fails there rather
+# than in the cluster.
+overrides:
+  deepmerge-ts: 8.0.0
+  find-my-way: 9.7.0
+  mysql2: 3.22.0

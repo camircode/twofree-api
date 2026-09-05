@@ -4,16 +4,21 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
+overrides:
+  deepmerge-ts: 8.0.0
+  find-my-way: 9.7.0
+  mysql2: 3.22.0
+
 importers:
 
   .:
     dependencies:
       '@camircode/twofree-application':
         specifier: ^0.1.0
-        version: 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+        version: 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
       '@camircode/twofree-auth':
         specifier: ^0.1.0
-        version: 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+        version: 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
       '@camircode/twofree-core':
         specifier: ^0.1.0
         version: 0.1.0
@@ -22,7 +27,7 @@ importers:
         version: 0.1.0
       '@camircode/twofree-database':
         specifier: ^0.1.0
-        version: 0.1.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+        version: 0.1.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
       '@nestjs/common':
         specifier: 11.1.28
         version: 11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -37,13 +42,13 @@ importers:
         version: 7.9.0
       '@prisma/client':
         specifier: 7.9.0
-        version: 7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+        version: 7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
       '@thallesp/nestjs-better-auth':
         specifier: 2.7.0
-        version: 2.7.0(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.28)(better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)))(express@5.1.0)(qs@6.14.0)(typescript@5.9.3)
+        version: 2.7.0(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.28)(better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)))(express@5.1.0)(qs@6.14.0)(typescript@5.9.3)
       better-auth:
         specifier: 1.6.23
-        version: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+        version: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
       class-transformer:
         specifier: 0.5.1
         version: 0.5.1
@@ -86,7 +91,7 @@ importers:
         version: 3.8.2
       prisma:
         specifier: 7.9.0
-        version: 7.9.0(@types/react@19.2.18)(typescript@5.9.3)
+        version: 7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3)
       tsx:
         specifier: 4.20.6
         version: 4.20.6
@@ -1183,7 +1188,7 @@ packages:
       drizzle-kit: '>=0.31.4'
       drizzle-orm: ^0.45.2
       mongodb: ^6.0.0 || ^7.0.0
-      mysql2: ^3.0.0
+      mysql2: 3.22.0
       next: ^14.0.0 || ^15.0.0 || ^16.0.0
       pg: ^8.0.0
       prisma: ^5.0.0 || ^6.0.0 || ^7.0.0
@@ -1424,8 +1429,8 @@ packages:
   deep-is@0.1.4:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
 
-  deepmerge-ts@7.1.5:
-    resolution: {integrity: sha512-HOJkrhaYsweh+W+e74Yn7YStZOilkoPb6fycpwNLKzSPtruFs48nYis0zy5yJz1+ktUhHxoRDJ27RQAWLIJVJw==}
+  deepmerge-ts@8.0.0:
+    resolution: {integrity: sha512-ICNjaP0ML+eSdEpJYQC46XiAn/UjAdwbEl0dE8p85ZTeNDinN4Kd4+9jS4OSAuH7st6eC7rQhsqTF5zIDaUm2g==}
     engines: {node: '>=16.0.0'}
 
   defu@6.1.7:
@@ -1625,8 +1630,8 @@ packages:
     resolution: {integrity: sha512-S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA==}
     engines: {node: '>= 18.0.0'}
 
-  find-my-way@9.6.0:
-    resolution: {integrity: sha512-Zf4Xve4RymLl7NgaavNebZ01joJ8MfVerOG43wy7SHLO+r+K0C6d/SE0BiR7AV5V1VOCFlOP7ecdo+I4qmiHrQ==}
+  find-my-way@9.7.0:
+    resolution: {integrity: sha512-f2JHn75x2JlwUwLenZypgczR7YWMb/uO9BvUXtus+JMgkbIkLADd38cI4EiV+OQqrGo1Zlq6V8wnqMJ8e62wUQ==}
     engines: {node: '>=20'}
 
   find-up@5.0.0:
@@ -1954,9 +1959,11 @@ packages:
     resolution: {integrity: sha512-6rdyFg2kLrMh9Jee7/BMPuV9lEAd7lLW2YUpF9/YxR7njyoUwwQ0ZPh3TaIY50Sw6vlyD2HW3wGOkTS4P79xrQ==}
     engines: {node: '>= 10.16.0'}
 
-  mysql2@3.15.3:
-    resolution: {integrity: sha512-FBrGau0IXmuqg4haEZRBfHNWB5mUARw6hNwPDXXGg0XzVJ50mr/9hb267lvpVMnhZ1FON3qNd4Xfcez1rbFwSg==}
+  mysql2@3.22.0:
+    resolution: {integrity: sha512-4jaJYBObj7FhD3lnZhqX1yDMuZN4mQNz+IolDySDXT7fbozMBpeGQNcuWXKUqo4ahkAEfkjUHPjnwuDI0/6VKw==}
     engines: {node: '>= 8.0'}
+    peerDependencies:
+      '@types/node': '>= 8'
 
   named-placeholders@1.1.6:
     resolution: {integrity: sha512-Tz09sEL2EEuv5fFowm419c1+a/jSMiBjI9gHxVLrVdbUkkNUUfjsVYs9pVZu5oCon/kmRh9TfLEObFtkVxmY0w==}
@@ -2234,9 +2241,6 @@ packages:
     resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
 
-  seq-queue@0.0.5:
-    resolution: {integrity: sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==}
-
   serve-static@2.2.1:
     resolution: {integrity: sha512-xRXBn0pPqQTVQiC8wyQrKs2MOlX24zQ0POGaj0kultvoOCstBQM5yvOhAVSUwOMjQtTvsPWoNCHfPGwaaQJhTw==}
     engines: {node: '>= 18'}
@@ -2289,9 +2293,9 @@ packages:
     resolution: {integrity: sha512-UcjcJOWknrNkF6PLX83qcHM6KHgVKNkV62Y8a5uYDVv9ydGQVwAHMKqHdJje1VTWpljG0WYpCDhrCdAOYH4TWg==}
     engines: {node: '>= 10.x'}
 
-  sqlstring@2.3.3:
-    resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==}
-    engines: {node: '>= 0.6'}
+  sql-escaper@1.5.1:
+    resolution: {integrity: sha512-4toX5E1fQbBrpfXidaHnF0669nkAdETeIPTs2SUjxxD7RRIs9ICG4gtpmfc68JCEKehsdwLFqBu9VlQqZ1P1gg==}
+    engines: {bun: '>=1.0.0', deno: '>=2.0.0', node: '>=12.0.0'}
 
   stackback@0.0.2:
     resolution: {integrity: sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==}
@@ -2570,13 +2574,13 @@ snapshots:
       '@better-auth/core': 1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3)
       '@better-auth/utils': 0.4.2
 
-  '@better-auth/prisma-adapter@1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))':
+  '@better-auth/prisma-adapter@1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))':
     dependencies:
       '@better-auth/core': 1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3)
       '@better-auth/utils': 0.4.2
     optionalDependencies:
-      '@prisma/client': 7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
-      prisma: 7.9.0(@types/react@19.2.18)(typescript@5.9.3)
+      '@prisma/client': 7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+      prisma: 7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3)
 
   '@better-auth/telemetry@1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)':
     dependencies:
@@ -2592,9 +2596,9 @@ snapshots:
 
   '@borewit/text-codec@0.2.2': {}
 
-  '@camircode/twofree-application@0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))':
+  '@camircode/twofree-application@0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))':
     dependencies:
-      '@camircode/twofree-auth': 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+      '@camircode/twofree-auth': 0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
       '@camircode/twofree-core': 0.1.0
       '@camircode/twofree-data-provider': 0.1.0
     transitivePeerDependencies:
@@ -2622,10 +2626,10 @@ snapshots:
       - vitest
       - vue
 
-  '@camircode/twofree-auth@0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))':
+  '@camircode/twofree-auth@0.1.0(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))':
     dependencies:
-      '@camircode/twofree-database': 0.1.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
-      better-auth: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+      '@camircode/twofree-database': 0.1.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+      better-auth: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
       - '@lynx-js/react'
@@ -2662,12 +2666,12 @@ snapshots:
     transitivePeerDependencies:
       - pg-native
 
-  '@camircode/twofree-database@0.1.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)':
+  '@camircode/twofree-database@0.1.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@camircode/twofree-core': 0.1.0
       '@camircode/twofree-data-provider': 0.1.0
       '@prisma/adapter-pg': 7.9.0
-      '@prisma/client': 7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+      '@prisma/client': 7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
       pg: 8.22.0
     transitivePeerDependencies:
       - pg-native
@@ -2965,17 +2969,17 @@ snapshots:
 
   '@prisma/client-runtime-utils@7.9.0': {}
 
-  '@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)':
+  '@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)':
     dependencies:
       '@prisma/client-runtime-utils': 7.9.0
     optionalDependencies:
-      prisma: 7.9.0(@types/react@19.2.18)(typescript@5.9.3)
+      prisma: 7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3)
       typescript: 5.9.3
 
   '@prisma/config@7.9.0':
     dependencies:
       c12: 3.3.4
-      deepmerge-ts: 7.1.5
+      deepmerge-ts: 8.0.0
       effect: 3.20.0
       empathic: 2.0.0
     transitivePeerDependencies:
@@ -2993,7 +2997,7 @@ snapshots:
       '@prisma/get-platform': 7.2.0
       '@prisma/query-plan-executor': 7.2.0
       '@prisma/streams-local': 0.1.11
-      find-my-way: 9.6.0
+      find-my-way: 9.7.0
       foreground-child: 3.3.1
       get-port-please: 3.2.0
       pathe: 2.0.3
@@ -3150,11 +3154,11 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
-  '@thallesp/nestjs-better-auth@2.7.0(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.28)(better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)))(express@5.1.0)(qs@6.14.0)(typescript@5.9.3)':
+  '@thallesp/nestjs-better-auth@2.7.0(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.28)(better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)))(express@5.1.0)(qs@6.14.0)(typescript@5.9.3)':
     dependencies:
       '@nestjs/common': 11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@nestjs/core': 11.1.28(@nestjs/common@11.1.28(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.28)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      better-auth: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
+      better-auth: 1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6))
       typescript: 5.9.3
     optionalDependencies:
       express: 5.1.0
@@ -3513,14 +3517,14 @@ snapshots:
 
   balanced-match@4.0.4: {}
 
-  better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.15.3)(pg@8.22.0)(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)):
+  better-auth@1.6.23(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(mysql2@3.22.0(@types/node@24.10.1))(pg@8.22.0)(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(vitest@4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)):
     dependencies:
       '@better-auth/core': 1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3)
       '@better-auth/drizzle-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)
       '@better-auth/kysely-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(kysely@0.29.5)
       '@better-auth/memory-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)
       '@better-auth/mongo-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)
-      '@better-auth/prisma-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@prisma/client@7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))
+      '@better-auth/prisma-adapter': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@prisma/client@7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3))(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))
       '@better-auth/telemetry': 1.6.23(@better-auth/core@1.6.23(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)(better-call@1.3.7(zod@4.5.4))(jose@6.2.11)(kysely@0.29.5)(nanostores@1.5.3))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.1)
       '@better-auth/utils': 0.4.2
       '@better-fetch/fetch': 1.3.1
@@ -3533,10 +3537,10 @@ snapshots:
       nanostores: 1.5.3
       zod: 4.5.4
     optionalDependencies:
-      '@prisma/client': 7.9.0(prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
-      mysql2: 3.15.3
+      '@prisma/client': 7.9.0(prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3))(typescript@5.9.3)
+      mysql2: 3.22.0(@types/node@24.10.1)
       pg: 8.22.0
-      prisma: 7.9.0(@types/react@19.2.18)(typescript@5.9.3)
+      prisma: 7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3)
       vitest: 4.1.0(@types/node@24.10.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.20.6)
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
@@ -3730,7 +3734,7 @@ snapshots:
 
   deep-is@0.1.4: {}
 
-  deepmerge-ts@7.1.5: {}
+  deepmerge-ts@8.0.0: {}
 
   defu@6.1.7: {}
 
@@ -4034,7 +4038,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  find-my-way@9.6.0:
+  find-my-way@9.7.0:
     dependencies:
       fast-deep-equal: 3.1.3
       fast-querystring: 1.1.2
@@ -4296,8 +4300,9 @@ snapshots:
       concat-stream: 2.0.0
       type-is: 1.6.18
 
-  mysql2@3.15.3:
+  mysql2@3.22.0(@types/node@24.10.1):
     dependencies:
+      '@types/node': 24.10.1
       aws-ssl-profiles: 1.1.2
       denque: 2.1.0
       generate-function: 2.3.1
@@ -4305,8 +4310,7 @@ snapshots:
       long: 5.3.2
       lru.min: 1.1.5
       named-placeholders: 1.1.6
-      seq-queue: 0.0.5
-      sqlstring: 2.3.3
+      sql-escaper: 1.5.1
 
   named-placeholders@1.1.6:
     dependencies:
@@ -4440,17 +4444,18 @@ snapshots:
 
   prettier@3.8.2: {}
 
-  prisma@7.9.0(@types/react@19.2.18)(typescript@5.9.3):
+  prisma@7.9.0(@types/node@24.10.1)(@types/react@19.2.18)(typescript@5.9.3):
     dependencies:
       '@prisma/config': 7.9.0
       '@prisma/dev': 0.24.14(typescript@5.9.3)
       '@prisma/engines': 7.9.0
       '@prisma/studio-core': 0.33.0(@types/react@19.2.18)
-      mysql2: 3.15.3
+      mysql2: 3.22.0(@types/node@24.10.1)
       postgres: 3.4.7
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
+      - '@types/node'
       - '@types/react'
       - '@types/react-dom'
       - magicast
@@ -4582,8 +4587,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  seq-queue@0.0.5: {}
-
   serve-static@2.2.1:
     dependencies:
       encodeurl: 2.0.0
@@ -4641,7 +4644,7 @@ snapshots:
 
   split2@4.2.0: {}
 
-  sqlstring@2.3.3: {}
+  sql-escaper@1.5.1: {}
 
   stackback@0.0.2: {}
 
