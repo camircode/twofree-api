@@ -26,11 +26,11 @@
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "dependencies": {
-    "@camircode/twofree-application": "^0.1.0",
-    "@camircode/twofree-auth": "^0.1.0",
-    "@camircode/twofree-core": "^0.1.0",
-    "@camircode/twofree-data-provider": "^0.1.0",
-    "@camircode/twofree-database": "^0.1.0",
+    "@camircode/twofree-application": "^0.1.1",
+    "@camircode/twofree-auth": "^0.1.1",
+    "@camircode/twofree-core": "^0.1.1",
+    "@camircode/twofree-data-provider": "^0.1.1",
+    "@camircode/twofree-database": "^0.1.1",
     "@nestjs/common": "11.1.28",
     "@nestjs/core": "11.1.28",
     "@nestjs/platform-express": "11.1.28",
