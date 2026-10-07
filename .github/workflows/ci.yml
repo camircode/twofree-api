@@ -1,0 +1,298 @@
+# Builds the image, tests and scans it, pushes it to GHCR by digest, and commits
+# that digest to camircode/gitops. Argo CD does the deploying; this workflow never
+# touches the cluster, so the git log of camircode/gitops stays the real
+# deployment history.
+#
+# This replaces the Jenkinsfile that did the same job on the homelab's Jenkins,
+# stage for stage. The shell in each step was moved over unchanged.
+#
+# Pull requests run only the first step. They get no secrets (GitHub withholds
+# them from forks), so nothing that publishes or deploys can run from one, and
+# `pull_request_target` is deliberately not used. Only a push to main updates
+# gitops; a push to ci/** goes as far as the scan, which is how a change to this
+# file gets tried without deploying anything.
+name: ci
+
+on:
+  push:
+    branches: [main, 'ci/**']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# disableConcurrentBuilds in the Jenkinsfile: queue, never cancel a build that
+# may be halfway through publishing.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: 'ghcr.io'
+  IMAGE: 'ghcr.io/camircode/twofree-api'
+  MIGRATE_IMAGE: 'ghcr.io/camircode/twofree-api-migrate'
+  GITOPS: 'git@github.com:camircode/gitops.git'
+  MANIFEST: 'manifests/twofree-api/deployment.yaml'
+  MIGRATE_MANIFEST: 'manifests/twofree-api/migrate-job.yaml'
+  NPMRC: ${{ github.workspace }}/.npmrc.ci
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Test
+        env:
+          GHCR_USER: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PASS: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          set -eu
+          umask 077
+          cat > "$NPMRC" <<EOF
+          @camircode:registry=https://npm.pkg.github.com
+          //npm.pkg.github.com/:_authToken=${GHCR_PASS}
+          EOF
+
+          docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v /etc/passwd:/etc/passwd:ro \
+            -v /etc/group:/etc/group:ro \
+            -e HOME=/tmp -e CI=true \
+            -v "$NPMRC":/tmp/.npmrc:ro \
+            -v "$PWD":/src -w /src \
+            node:24 \
+            sh -c '
+              set -eu
+              # The directory has to exist first: corepack resolves
+              # it with realpathSync and fails with a bare ENOENT
+              # if it does not.
+              mkdir -p /tmp/bin
+              corepack enable --install-directory /tmp/bin
+              export PATH=/tmp/bin:$PATH
+              pnpm install --frozen-lockfile
+              pnpm typecheck
+              pnpm test
+            '
+
+
+      - name: Compute build metadata
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "SHORT_SHA=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
+          echo "APP_VERSION=$(jq -r .version package.json)" >> "$GITHUB_ENV"
+
+      - name: Build and push
+        if: github.event_name != 'pull_request'
+        env:
+          GHCR_USER: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PASS: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          set -eu
+          echo "$GHCR_PASS" | docker login "$REGISTRY" -u "$GHCR_USER" --password-stdin
+
+          docker buildx create --use --name builder 2>/dev/null || docker buildx use builder
+
+          # One Dockerfile, two targets. The tags exist so a human
+          # can find the build; the digests are what get deployed.
+          # --metadata-file is how each digest comes back without a
+          # second registry round trip.
+          #
+          # --secret, not --build-arg and not a COPY: the token is
+          # mounted for the length of one RUN and leaves no layer
+          # and no history entry behind.
+          # APP_VERSION and BUILD_SHA so GET /version names the
+          # build that is running rather than the configuration
+          # loader's laptop defaults. The full sha, not SHORT_SHA:
+          # the tag is for a human scanning a list, this is for
+          # finding the commit.
+          docker buildx build \
+            --push \
+            --provenance=false \
+            --secret id=npmrc,src="$NPMRC" \
+            --build-arg APP_VERSION="$APP_VERSION" \
+            --build-arg BUILD_SHA="$GITHUB_SHA" \
+            --tag "$IMAGE:$SHORT_SHA" \
+            --metadata-file metadata-api.json \
+            .
+
+          docker buildx build \
+            --push \
+            --provenance=false \
+            --target migrate \
+            --secret id=npmrc,src="$NPMRC" \
+            --tag "$MIGRATE_IMAGE:$SHORT_SHA" \
+            --metadata-file metadata-migrate.json \
+            .
+
+
+      - name: Record the image digest
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "IMAGE_DIGEST=$(jq -r '."containerimage.digest"' metadata-api.json)" >> "$GITHUB_ENV"
+          echo "MIGRATE_DIGEST=$(jq -r '."containerimage.digest"' metadata-migrate.json)" >> "$GITHUB_ENV"
+          jq -r '"Pushed " + env.IMAGE + "@" + ."containerimage.digest"' metadata-api.json
+          jq -r '"Pushed " + env.MIGRATE_IMAGE + "@" + ."containerimage.digest"' metadata-migrate.json
+
+      - name: Smoke test
+        if: github.event_name != 'pull_request'
+        run: |
+          set -eu
+          NET="smoke-$GITHUB_RUN_NUMBER"
+          DB="smoke-db-$GITHUB_RUN_NUMBER"
+          APP="smoke-app-$GITHUB_RUN_NUMBER"
+
+          cleanup() {
+            docker logs "$APP" 2>&1 | tail -30 || true
+            docker rm -f "$APP" "$DB" >/dev/null 2>&1 || true
+            docker network rm "$NET" >/dev/null 2>&1 || true
+          }
+          trap cleanup EXIT
+
+          docker network create "$NET"
+          docker run -d --name "$DB" --network "$NET" \
+            -e POSTGRES_USER=twofree \
+            -e POSTGRES_PASSWORD=smoke \
+            -e POSTGRES_DB=twofree \
+            postgres:17-alpine
+
+          for i in $(seq 1 60); do
+            docker exec "$DB" pg_isready -U twofree -d twofree >/dev/null 2>&1 && break
+            sleep 1
+          done
+
+          DATABASE_URL="postgresql://twofree:smoke@$DB:5432/twofree"
+
+          # The migrate image first, and not piped into anything: a
+          # pipeline reports the exit status of its last command, so
+          # `docker run ... | tail` would swallow a failed migration
+          # and let the API start against an empty schema.
+          docker pull "${MIGRATE_IMAGE}@${MIGRATE_DIGEST}"
+          docker run --rm --network "$NET" \
+            -e DATABASE_URL="$DATABASE_URL" \
+            "${MIGRATE_IMAGE}@${MIGRATE_DIGEST}"
+
+          # Disposable values. The secret is long enough and unlike a
+          # placeholder because the configuration loader rejects both,
+          # and the encryption key is base64 of exactly 32 bytes
+          # because AES-256-GCM is.
+          docker pull "${IMAGE}@${IMAGE_DIGEST}"
+          docker run -d --name "$APP" --network "$NET" \
+            --user 10001:10001 --read-only --tmpfs /tmp \
+            -e DATABASE_URL="$DATABASE_URL" \
+            -e APP_PROFILE=cloud-test \
+            -e BETTER_AUTH_SECRET=smoke-test-only-value-not-used-anywhere-else \
+            -e BETTER_AUTH_URL=http://localhost:8080 \
+            -e DATA_ENCRYPTION_KEY=c21va2UtdGVzdC1rZXktbm90LWEtcmVhbC1zZWNyZXQ= \
+            "${IMAGE}@${IMAGE_DIGEST}"
+
+          # curl from a container on the same network: the agent needs
+          # neither curl nor a published port.
+          probe() {
+            docker run --rm --network "$NET" curlimages/curl:latest \
+              -sS -o /dev/null -w '%{http_code}' --max-time 5 "http://$APP:8080$1"
+          }
+
+          # /health answers 503 while the database is unreachable, so a
+          # 200 here is the single assertion that proves the whole
+          # chain: the bundle starts, the compiled Prisma client loads,
+          # the pool connects, and the migrations really ran.
+          ok=""
+          for i in $(seq 1 45); do
+            if [ "$(probe /health || true)" = "200" ]; then ok=yes; break; fi
+            sleep 2
+          done
+          [ -n "$ok" ] || { echo "The image never answered 200 on /health."; exit 1; }
+
+          # /version is served by the same controller without touching
+          # the database, so it separates "the app is up" from "the
+          # database is up" when this stage fails.
+          [ "$(probe /version)" = "200" ] || { echo "/version did not answer 200."; exit 1; }
+
+          echo "Smoke test passed: both images start, the schema migrates, the API serves."
+
+
+      - name: Scan
+        if: github.event_name != 'pull_request'
+        env:
+          GHCR_USER: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PASS: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          set -eu
+          for target in "${IMAGE}@${IMAGE_DIGEST}" "${MIGRATE_IMAGE}@${MIGRATE_DIGEST}"; do
+            docker run --rm \
+              -e TRIVY_USERNAME="$GHCR_USER" \
+              -e TRIVY_PASSWORD="$GHCR_PASS" \
+              -v "$HOME/.cache/trivy:/root/.cache/" \
+              -v "$PWD/.trivyignore.yaml:/.trivyignore.yaml:ro" \
+              aquasec/trivy:latest image \
+                --scanners vuln \
+                --severity HIGH,CRITICAL \
+                --ignore-unfixed \
+                --ignorefile /.trivyignore.yaml \
+                --exit-code 1 \
+                "$target"
+          done
+
+
+      - name: Update the desired state
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          GITOPS_DEPLOY_KEY: ${{ secrets.GITOPS_DEPLOY_KEY }}
+        run: |
+          set -eu
+          # The one credential here that can change what runs in the cluster without a
+          # human merging something. It is a deploy key on camircode/gitops alone.
+          install -d -m 700 "$HOME/.ssh"
+          umask 077
+          printf '%s\n' "$GITOPS_DEPLOY_KEY" > "$HOME/.ssh/gitops"
+          export GIT_SSH_COMMAND="ssh -i $HOME/.ssh/gitops -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
+
+          rm -rf gitops
+          git clone --depth 1 "$GITOPS" gitops
+          cd gitops
+          git config user.email "ci@camir.tech"
+          git config user.name  "github-actions"
+
+          sed -i -E "s#image: ghcr\.io/camircode/twofree-api[@:][^[:space:]]+#image: ${IMAGE}@${IMAGE_DIGEST}#" "$MANIFEST"
+          sed -i -E "s#image: ghcr\.io/camircode/twofree-api-migrate[@:][^[:space:]]+#image: ${MIGRATE_IMAGE}@${MIGRATE_DIGEST}#" "$MIGRATE_MANIFEST"
+
+          if git diff --quiet; then
+            echo "Already at ${IMAGE_DIGEST}; nothing to commit."
+            exit 0
+          fi
+
+          # One commit for both files. The Job applies the schema
+          # the Deployment expects, so a revert that moved only one
+          # of them back would leave the two disagreeing.
+          git add "$MANIFEST" "$MIGRATE_MANIFEST"
+          git commit -m "deploy(twofree-api): ${IMAGE_DIGEST}
+
+          api     ${IMAGE}@${IMAGE_DIGEST}
+          migrate ${MIGRATE_IMAGE}@${MIGRATE_DIGEST}
+
+          Built from camircode/twofree-api@${GITHUB_SHA} by GitHub Actions run ${GITHUB_RUN_ID}."
+
+          # Every application pushes to this one repository, so two builds finishing
+          # together will race. Their manifests are different files, so rebasing never
+          # conflicts; it only has to be done.
+          for attempt in 1 2 3 4 5; do
+            git push origin main && exit 0
+            echo "push rejected (attempt $attempt); rebasing onto the new tip"
+            git fetch --depth 1 origin main
+            git rebase origin/main
+          done
+          echo "could not push to gitops after 5 attempts" >&2
+          exit 1
+
+      - name: Clean up credentials
+        if: always()
+        run: |
+          rm -f "$NPMRC" || true
+          docker logout ghcr.io || true

@@ -176,7 +176,7 @@ ENV API_HOST=0.0.0.0
 #
 # GET /version exists to answer "which build is running", and it could not: the
 # shared configuration loader defaults to version 0.1.0 and build "local", so an
-# image built by Jenkins reported itself as a laptop build. Putting the values
+# image built by CI reported itself as a laptop build. Putting the values
 # in the Deployment instead would let the manifest and the image disagree, which
 # is the same problem wearing a different hat — the image is the thing that
 # knows what it is.

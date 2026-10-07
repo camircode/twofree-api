@@ -15,8 +15,7 @@ that can rewrite the schema.
 
 ## 1. How a change reaches the cluster
 
-Commit to `main` → **Jenkins polls every five minutes** (a webhook is impossible:
-the controller is only reachable over WireGuard, so GitHub cannot call it) →
+Push to `main` → **GitHub Actions** (`.github/workflows/ci.yml`) →
 test in a container → `docker buildx` push both images to GHCR **by digest** →
 smoke-test both digests → Trivy (HIGH/CRITICAL, `--ignore-unfixed`) → commit the
 two digests into `camircode/gitops` → Argo CD syncs.
@@ -37,7 +36,7 @@ deployment history.
   build `ARG` (it persists in image history and `docker history` prints it back
   to anyone who can pull), never on a command line. The GHCR read token reaches
   the build as a **BuildKit secret mount**; see `--secret id=npmrc` in the
-  `Jenkinsfile` and `--mount=type=secret,id=npmrc` in the `Dockerfile`.
+  `.github/workflows/ci.yml` and `--mount=type=secret,id=npmrc` in the `Dockerfile`.
 - **One PostgreSQL on `data-01`**, with a role and a database per application.
   Never a PostgreSQL per app.
 - **Gateway API, never `Ingress`.**
@@ -54,7 +53,7 @@ the source, not the image. That is what the smoke stage exists for.
 A change to `@camircode/twofree-*` must be versioned and published from
 `twofree-packages` *before* the bump here can install. Bumping to a version that
 is not published yet fails in the `deps` stage of the Docker build, minutes into
-a Jenkins run, as a resolver error about a tarball.
+a CI run, as a resolver error about a tarball.
 
 `pnpm-workspace.yaml` sets `minimumReleaseAgeExclude: ["@camircode/*"]`. pnpm 11
 refuses packages published less than a day ago — a good default against a
@@ -122,7 +121,7 @@ reject.
 **The first `pnpm install` against the published packages must commit the
 lockfile in the same change**, and in that same change switch to
 `--frozen-lockfile`: the three `pnpm install` lines in the `Dockerfile` (`deps`,
-`runtime-deps`, `migrate-deps`) and the one in the `Jenkinsfile` `Test` stage.
+`runtime-deps`, `migrate-deps`) and the one in the `Test` step of `.github/workflows/ci.yml`.
 Until then, two builds of the same commit can resolve different trees.
 
 ## 6. Working here

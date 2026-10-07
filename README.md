@@ -23,10 +23,10 @@ migrated or drifted.
 
 ## Deployment
 
-Deployment happens through Jenkins and Argo CD. Nothing here is applied with
+Deployment happens through GitHub Actions and Argo CD. Nothing here is applied with
 `kubectl apply`, by a person or by a pipeline.
 
-Jenkins builds and pushes both images by digest, starts them against a throwaway
+GitHub Actions builds and pushes both images by digest, starts them against a throwaway
 PostgreSQL to prove they run, scans them, and then commits those digests to two
 lines in `camircode/gitops`:
 
@@ -64,4 +64,4 @@ yet, so no lockfile resolved against that registry can exist; one produced from 
 local link or a local registry pins tarball integrities that CI would reject.
 Once the packages are published, generate the lockfile, commit it, and change
 the three `pnpm install` lines in the `Dockerfile` and the one in the
-`Jenkinsfile` to `pnpm install --frozen-lockfile`.
+`.github/workflows/ci.yml` to `pnpm install --frozen-lockfile`.
